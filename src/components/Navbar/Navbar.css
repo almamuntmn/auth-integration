@@ -1,0 +1,9 @@
+.active {
+    background-color: chartreuse;
+    padding: 10px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+}
