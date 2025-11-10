@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import './Navbar.css'
 import { use } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -6,13 +6,32 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 const Navbar = () => {
 
-const userInfo = use(AuthContext);
-console.log(userInfo);
+const {user, singOut}= use(AuthContext);
+console.log(user);
+
+const handleSignOut = () => {
+    singOut()
+    .then(() => {})
+    .catch(error => {
+        console.error(error);
+    })
+}
 
     const links = <>
-        <NavLink className="p-2" to="/">Home</NavLink>
-        <NavLink className="p-2" to="/login">Login</NavLink>
-        <NavLink className="p-2" to="/register">Register</NavLink>
+            <li><NavLink className="p-2" to="/dashboard">Dashboard</NavLink></li>
+        {
+            !user && <>
+            <li><NavLink className="p-2" to="/login">Login</NavLink></li>
+            <li><NavLink className="p-2" to="/register">Register</NavLink></li>
+            </>
+        }
+        {
+            user && <>      
+            <li><NavLink className="p-2" to="/">Home</NavLink></li>
+            <li><NavLink className="p-2" to="/orders">Orders</NavLink></li>
+            <li><NavLink className="p-2" to="/profile">Profile</NavLink></li>
+            </>
+        }
     </>
 
 
@@ -29,7 +48,7 @@ console.log(userInfo);
                    {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <a className="btn btn-ghost text-xl">CoolMan</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -37,7 +56,10 @@ console.log(userInfo);
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                {user ? <>
+                <span>{user.email}</span>
+                <button onClick={handleSignOut} className="btn btn-outline btn-success">Logout</button>
+                </> : <Link to="/login"><button className="btn btn-outline btn-success">Login</button></Link>}
             </div>
         </div>
     );

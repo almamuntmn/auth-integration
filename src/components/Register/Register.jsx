@@ -1,12 +1,14 @@
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext';
 // import { auth } from '../../firebase.init';
+import { Navigate } from 'react-router';
 
 const Register = () => {
 
     const { createUser } = use(AuthContext);
+    const Navigate = useNavigate();
 
 const handleRegister = (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ const handleRegister = (e) => {
     createUser(email, password)
     .then(result => {
         console.log(result.user);
+        Navigate('/');
     })
     .catch(error => {
         console.error(error);
@@ -46,7 +49,7 @@ const handleRegister = (e) => {
                     <label className="label">Password</label>
                     <input type="password" className="input" name='password' placeholder="Password" required autoComplete='current-password' />
                     <div><a className="link link-hover">Forgot password?</a></div>
-                    <button className="btn btn-primary mt-4">Register</button>
+                    <button className="btn btn-primary w-full mt-4">Register</button>
                 </form>
                 <p>Already have an account? <Link className='text-blue-400 underline' to="/login">Login</Link></p>
             </div>
